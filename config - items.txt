@@ -1,0 +1,18 @@
+Number itm_scene_bulb1 "Scene"
+Number itm_lights_lvl_bulb1 "Level [%.1f]"
+Switch itm_winkpoll_trigger1    "Front Door [MAP(mycons.map):%s]"       <door>
+Switch itm_winkpoll_trigger2    "Garage Door [MAP(mycons.map):%s]"       <door>
+Switch itm_winkpoll_remote "Lights"
+Number itm_smarthome_light "smart home light" {mqtt=">[mymosquitto:2822:command:*:default]"}
+Number itm_smarthome_servo1 "Front Door Servo" {mqtt=">[mymosquitto:2832:command:*:default]"}
+Number itm_smarthome_servo2 "Garage Servo" {mqtt=">[mymosquitto:2842:command:*:default]"}
+Number itm_smarthome_servo3 "Power Usage" {mqtt=">[mymosquitto:2852:command:*:default]"}
+Number itm_smarthome_energy_amps "Energy (amps) [%.1f]" {mqtt="<[mymosquitto:2853:state:default]"}
+Number itm_smarthome_energy_watts "Energy (Watts) [%.1f]"  {mqtt="<[mymosquitto:2852:state:default]"}
+String itm_smarthome_button1 "button1" {mqtt="<[mymosquitto:2862:state:default]"}
+String itm_smarthome_button2 "button2" {mqtt="<[mymosquitto:2872:state:default]"}
+/* garage genie */
+Number itm_park_car_present "Mom's Car Stall" <mycarstall>
+Number itm_park_dist_mqtt "Car Distance [%.1f]" {mqtt="<[mymosquitto:4122:state:default]"}
+Switch itm_park_garage_btn "Garage Open/Close" <blank>
+Switch itm_park_door_mqtt_act "Garage Door Opener" <blank> {mqtt=">[mymosquitto:4132:command:ON:1],>[mymosquitto:4132:command:OFF:0]"}

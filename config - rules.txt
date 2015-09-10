@@ -1,0 +1,161 @@
+//************** garage genie **********************************
+rule "car presence"
+	when
+		Item itm_park_dist_mqtt received update
+	then
+		if (itm_park_dist_mqtt.state < 30)
+		{
+			sendCommand(itm_park_car_present, 1)
+		}
+		if (itm_park_dist_mqtt.state > 35)
+		{
+			sendCommand(itm_park_car_present, 0)
+		}
+end
+
+rule "garage door closeopen"
+	when
+		Item itm_park_garage_btn received update
+	then
+		sendCommand(itm_park_door_mqtt_act, OFF)
+end
+
+
+//------------------ demo smart home -----------------
+rule "trigger 1 on to off"
+	when
+		Item itm_winkpoll_trigger1 changed from ON to OFF
+	then
+		sendCommand(itm_smarthome_servo1, 0)		
+end
+rule "trigger 1 off to on"
+        when
+                Item itm_winkpoll_trigger1 changed from OFF to ON
+        then
+                sendCommand(itm_smarthome_servo1, 1)
+end
+
+rule "trigger 2 on to off"
+        when
+                Item itm_winkpoll_trigger2 changed from ON to OFF
+        then
+                sendCommand(itm_smarthome_servo2, 1)
+end
+rule "trigger 2 off to on"
+        when
+                Item itm_winkpoll_trigger2 changed from OFF to ON
+        then
+                sendCommand(itm_smarthome_servo2, 0)
+end
+
+
+//---------------- demo energy usage  ------------
+rule "energy watts"
+        when
+                Item itm_smarthome_energy_watts received update
+        then
+                itm_smarthome_servo3.state = itm_smarthome_energy_watts.state
+		//sendCommand(itm_smarthome_servo3, itm_smarthome_energy_watts.state)
+end
+
+
+
+//---------------- turn zigbee bulbs on/off via remote  ------------
+rule "remote on to off"
+        when
+                Item itm_winkpoll_remote changed from ON to OFF
+        then
+		demolight = 0
+                executeCommandLine("/opt/myscripts/demo_3_off.sh");
+end
+rule "remote off to on"
+        when
+                Item itm_winkpoll_remote changed from OFF to ON
+        then
+		demolight = 1
+		executeCommandLine("/opt/myscripts/demo_1_general.sh");
+                
+end
+
+
+
+
+
+
+//-------------------- demo lights --------------------------
+
+rule "demo Pattern"
+        when
+                Item itm_scene_bulb1 received update
+        then
+                if(itm_scene_bulb1.state == 1)
+                {
+                        executeCommandLine("/opt/myscripts/demo_1_general.sh");
+			demolight = 1
+                }
+                if(itm_scene_bulb1.state == 2)
+                {
+                        executeCommandLine("/opt/myscripts/demo_2_evening.sh");
+			demolight = 1
+                }
+                if(itm_scene_bulb1.state == 3)
+                {
+                        executeCommandLine("/opt/myscripts/demo_3_off.sh");
+			demolight = 0
+                }
+end
+
+
+rule "smarthome button1"
+        when
+                Item itm_smarthome_button1 received update
+        then
+                if(demolight == 0)
+                {
+                        executeCommandLine("/opt/myscripts/demo_1_general.sh");
+			demolight = 1
+                }
+                else
+                {
+                        executeCommandLine("/opt/myscripts/demo_3_off.sh");
+			demolight = 0
+                }
+end
+
+
+
+
+rule "Demo dimming"
+        when
+                Item itm_lights_lvl_bulb1 received update
+        then
+                if(itm_lights_lvl_bulb1.state == 1)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_1.sh");
+
+                }
+                if(itm_lights_lvl_bulb1.state == 10)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_10.sh");
+
+                }
+                if(itm_lights_lvl_bulb1.state == 30)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_30.sh");
+
+                }
+                if(itm_lights_lvl_bulb1.state == 60)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_60.sh");
+
+                }
+                if(itm_lights_lvl_bulb1.state == 80)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_80.sh");
+
+                }
+                if(itm_lights_lvl_bulb1.state == 100)
+                {
+                        executeCommandLine("/opt/myscripts/DemoDim_100.sh");
+                }
+end

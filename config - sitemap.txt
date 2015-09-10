@@ -1,0 +1,48 @@
+
+
+	//-------  start smart house -----------------------------------
+		Text label="Better Home Automation" icon="firstfloor" {
+
+			Frame label="Light Control"
+			{
+				Switch item=itm_scene_bulb1 label="Bulb Pattern" mappings=[1=General, 2=Evening, 3=Off]
+				Selection item=itm_lights_lvl_bulb1 label="Brightness" mappings=[1="1%", 10="10%", 30="30%", 60="60%", 80="80%", 100="100%"]
+			}
+
+			Frame label="Contact Switch States"
+			{
+                Text item=itm_winkpoll_trigger1
+                Text item=itm_winkpoll_trigger2
+                Switch item=itm_winkpoll_remote
+                
+            } //Contact Switch State
+      	}//Text label="Better Home Automation" 
+		//-------  end smart house -----------------------------------
+
+                //-------  start energy -----------------------------------
+                Text label="Energy" icon="firstfloor" {
+                        Frame label="Energy Usage"
+                        {
+                Text item=itm_smarthome_energy_amps
+                Text item=itm_smarthome_energy_watts
+		Chart item=itm_smarthome_energy_watts period=h refresh=5000
+            } //energy usage
+        }//Text label="Better Home Automation"
+                //-------  end energy -----------------------------------
+
+	Text label="Garage Genie" icon="firstfloor" {
+		        Frame label="Garage"
+		        {
+			 Text item=itm_my_gar_door label="Garage Door Status [%s]"
+			}//end frame label garage status
+		Frame label="Garage Genie Details"
+		{
+                	Text item=itm_park_car_present
+                	Switch item=itm_park_garage_btn mappings=[OFF="DOOR"]
+		} //end Parking Genie Details
+            
+	Frame label="Camera" {
+		//note, the video url string may look like either of these
+		Video url="http://192.168.1.39:1234" encoding="mjpeg"
+		}//end frame "Camera"
+	}//end Garage Genie

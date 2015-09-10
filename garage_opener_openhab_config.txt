@@ -1,0 +1,20 @@
+rule "car presence"
+	when
+		Item itm_park_dist_mqtt received update
+	then
+		if (itm_park_dist_mqtt.state < 30)
+		{
+			sendCommand(itm_park_car_present, 1)
+		}
+		if (itm_park_dist_mqtt.state > 35)
+		{
+			sendCommand(itm_park_car_present, 0)
+			playSound("garageopened.mp3")
+		}
+end
+rule "garage door closeopen"
+	when
+		Item itm_park_garage_btn received update
+	then
+		sendCommand(itm_park_door_mqtt_act, OFF)
+end
