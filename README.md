@@ -1,4 +1,4 @@
-## Connected Mousetrap
+
 A physical interface for your smart home.  Mini-me house mimics what your real house is doing.
 
 [Tutorial and video](http://www.instructables.com/id/Physical-Home-Automation-Interface/#step0)
